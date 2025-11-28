@@ -7,6 +7,7 @@ public class ScoreManager : MonoBehaviour
     public TextMeshProUGUI scoreText;
 
     int score;
+    public int Score => score;
 
     void Awake() { I = this; UpdateUI(); }
 
