@@ -188,6 +188,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  deathEffectPrefab: {fileID: 8306565736419535449, guid: 666744d7481970b42977b9079c7d5494, type: 3}
 --- !u!114 &6627750661350591993
 MonoBehaviour:
   m_ObjectHideFlags: 0

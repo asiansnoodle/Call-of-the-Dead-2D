@@ -1,31 +1,3 @@
-// using UnityEngine;
-// using UnityEngine.Events;
-
-// public class Health : MonoBehaviour
-// {
-//     public int max = 3;
-//     public UnityEvent onDeath;
-
-//     int current;
-//     public int Current => current;
-
-
-//     void Awake() => current = max;
-
-//     public void Take(int amount)
-//     {
-//         if (current <= 0) return;
-//         current -= amount;
-//         if (current <= 0) onDeath.Invoke();
-//     }
-
-//     public void HealToFull()
-//     {
-//         current = max;
-//     }
-
-// }
-
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -38,6 +10,9 @@ public class Health : MonoBehaviour
     int current;
     public int Current => current;
     private HitFlash2D hitFlash;
+
+    [Header("Death Effect")]
+    [SerializeField] private GameObject deathEffectPrefab;
 
     void Awake()
     {
@@ -73,6 +48,16 @@ public class Health : MonoBehaviour
         {
             current = 0;
             onDeath?.Invoke();
+
+            if (deathEffectPrefab != null)
+            {
+                Instantiate(
+                    deathEffectPrefab,
+                    transform.position,
+                    Quaternion.identity
+                );
+            }
+
             Destroy(gameObject);
         }
     }
