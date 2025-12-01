@@ -5,6 +5,8 @@ public class GunShooter : MonoBehaviour
     public Transform muzzle;            // assign Player->Muzzle
     public GameObject bulletPrefab;     // assign Bullet prefab
     public float bulletSpeed = 20f;
+    public MuzzleFlash muzzleFlash;
+
 
     // Optional: limit how fast the player can click-fire
     public float fireRate = 6f;         // max shots per second
@@ -41,6 +43,10 @@ public class GunShooter : MonoBehaviour
         if (AudioManager.I != null)
         {
             AudioManager.I.PlayShoot();
+        }
+        
+        if (muzzleFlash != null){
+            muzzleFlash.Flash();
         }
     }
 }
