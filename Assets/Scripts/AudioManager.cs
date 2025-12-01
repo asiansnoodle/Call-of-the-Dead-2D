@@ -12,6 +12,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip zombieDeathClip;
     public AudioClip waveStartClip;
     public AudioClip gameOverClip;
+    public AudioClip playerHurtClip;
 
     void Awake()
     {
@@ -38,4 +39,5 @@ public class AudioManager : MonoBehaviour
     public void PlayZombieDeath() => PlaySfx(zombieDeathClip);
     public void PlayWaveStart()   => PlaySfx(waveStartClip);
     public void PlayGameOver()    => PlaySfx(gameOverClip);
+    public void PlayPlayerHurt()  => PlaySfx(playerHurtClip);
 }

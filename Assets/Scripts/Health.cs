@@ -49,14 +49,16 @@ public class Health : MonoBehaviour
 
         current -= amount;
 
+        if (CompareTag("Player") && current != 0)
+        {
+            if (AudioManager.I != null)
+                AudioManager.I.PlayPlayerHurt();
+        }
+
         if (current <= 0)
         {
             current = 0;
-
-            // Fire death event for score, effects, etc.
             onDeath?.Invoke();
-
-            // Actually destroy this object
             Destroy(gameObject);
         }
     }
