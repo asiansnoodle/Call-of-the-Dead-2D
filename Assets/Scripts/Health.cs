@@ -57,6 +57,9 @@ public class Health : MonoBehaviour
 
             if (DamageFlash.I != null)
                 DamageFlash.I.Flash();
+
+            if (CameraShaker.I != null)
+                CameraShaker.I.Shake(0.3f, 0.3f);   // edit this to change camera shake intensity
         }
 
         if (current <= 0)
