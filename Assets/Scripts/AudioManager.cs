@@ -25,17 +25,17 @@ public class AudioManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    void PlaySfx(AudioClip clip)
+    void PlaySfx(AudioClip clip, float volumeScale = 1f)
     {
         if (clip != null && sfxSource != null)
         {
             sfxSource.pitch = Random.Range(0.95f, 1.05f);
-            sfxSource.PlayOneShot(clip);
+            sfxSource.PlayOneShot(clip, volumeScale);
         }
     }
 
-    public void PlayShoot()      => PlaySfx(shootClip);
+    public void PlayShoot()       => PlaySfx(shootClip, 0.20f);
     public void PlayZombieDeath() => PlaySfx(zombieDeathClip);
-    public void PlayWaveStart()  => PlaySfx(waveStartClip);
-    public void PlayGameOver()   => PlaySfx(gameOverClip);
+    public void PlayWaveStart()   => PlaySfx(waveStartClip);
+    public void PlayGameOver()    => PlaySfx(gameOverClip);
 }

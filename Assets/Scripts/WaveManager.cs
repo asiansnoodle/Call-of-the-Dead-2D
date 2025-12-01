@@ -102,6 +102,10 @@ public class WaveManager : MonoBehaviour
             hp.onDeath.AddListener(() =>
             {
                 if (ScoreManager.I) ScoreManager.I.Add(1);
+                if (AudioManager.I != null)
+                {
+                    AudioManager.I.PlayZombieDeath();
+                }
             });
 
             // OPTIONAL: health scaling
