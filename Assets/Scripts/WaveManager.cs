@@ -60,6 +60,12 @@ public class WaveManager : MonoBehaviour
             waveText.text = $"Wave: {currentWave}";
         }
 
+        if (AudioManager.I != null)
+        {
+            AudioManager.I.PlayWaveStart();
+        }
+
+
         // Start spawning
         StartCoroutine(SpawnWaveCoroutine());
     }
