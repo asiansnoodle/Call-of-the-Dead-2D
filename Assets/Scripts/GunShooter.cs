@@ -36,5 +36,11 @@ public class GunShooter : MonoBehaviour
         // Prevent immediate self-hit
         var bCol = b.GetComponent<Collider2D>();
         if (playerCol && bCol) Physics2D.IgnoreCollision(playerCol, bCol, true);
+
+        // gunshot sound
+        if (AudioManager.I != null)
+        {
+            AudioManager.I.PlayShoot();
+        }
     }
 }

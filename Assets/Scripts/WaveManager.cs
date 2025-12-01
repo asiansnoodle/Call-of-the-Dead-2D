@@ -60,6 +60,12 @@ public class WaveManager : MonoBehaviour
             waveText.text = $"Wave: {currentWave}";
         }
 
+        if (AudioManager.I != null)
+        {
+            AudioManager.I.PlayWaveStart();
+        }
+
+
         // Start spawning
         StartCoroutine(SpawnWaveCoroutine());
     }
@@ -102,6 +108,10 @@ public class WaveManager : MonoBehaviour
             hp.onDeath.AddListener(() =>
             {
                 if (ScoreManager.I) ScoreManager.I.Add(1);
+                if (AudioManager.I != null)
+                {
+                    AudioManager.I.PlayZombieDeath();
+                }
             });
 
             // OPTIONAL: health scaling
