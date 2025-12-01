@@ -49,10 +49,14 @@ public class Health : MonoBehaviour
 
         current -= amount;
 
+        // PLAYER HURT SOUND + SCREEN FLASH
         if (CompareTag("Player") && current != 0)
         {
             if (AudioManager.I != null)
                 AudioManager.I.PlayPlayerHurt();
+
+            if (DamageFlash.I != null)
+                DamageFlash.I.Flash();
         }
 
         if (current <= 0)
