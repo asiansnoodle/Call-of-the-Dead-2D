@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1597629310997632928}
   - component: {fileID: 6627750661350591993}
   - component: {fileID: 2045311187552995333}
+  - component: {fileID: 841039079567902626}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Enemy
@@ -224,3 +225,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &841039079567902626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8912797219678312926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76732807193668d47831b09ce4226109, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFlash2D
+  spriteRenderer: {fileID: 3176874481548224503}
+  flashColor: {r: 0.764151, g: 0.12615699, b: 0.12615699, a: 1}
+  flashDuration: 0.1
+  useOriginalColor: 1
