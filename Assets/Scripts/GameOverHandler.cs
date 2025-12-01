@@ -41,6 +41,12 @@ public class GameOverHandler : MonoBehaviour
 
         Time.timeScale = 0f;
 
+        if (AudioManager.I != null)
+        {
+            AudioManager.I.PlayGameOver();
+        }
+
+
         if (gameOverUI != null)
             gameOverUI.SetActive(true);
     }
