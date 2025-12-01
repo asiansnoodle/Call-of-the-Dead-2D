@@ -37,10 +37,12 @@ public class Health : MonoBehaviour
 
     int current;
     public int Current => current;
+    private HitFlash2D hitFlash;
 
     void Awake()
     {
         current = max;
+        hitFlash = GetComponent<HitFlash2D>();
     }
 
     public void Take(int amount)
@@ -48,6 +50,11 @@ public class Health : MonoBehaviour
         if (current <= 0) return;
 
         current -= amount;
+
+        if (hitFlash != null && current > 0)
+        {
+            hitFlash.Flash();
+        }
 
         // PLAYER HURT SOUND + SCREEN FLASH
         if (CompareTag("Player") && current != 0)
