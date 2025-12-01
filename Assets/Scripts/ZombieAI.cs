@@ -12,6 +12,7 @@ public class ZombieAI : MonoBehaviour
     float cd;
 
     void Awake() { rb = GetComponent<Rigidbody2D>(); }
+
     void Start()
     {
         var player = GameObject.FindGameObjectWithTag("Player");
@@ -23,11 +24,8 @@ public class ZombieAI : MonoBehaviour
         if (!target) return;
         Vector2 toPlayer = ((Vector2)target.position - rb.position).normalized;
         rb.MovePosition(rb.position + toPlayer * speed * Time.fixedDeltaTime);
-
-        // face movement direction (optional)
-        float angle = Mathf.Atan2(toPlayer.y, toPlayer.x) * Mathf.Rad2Deg - 90f;
-        rb.rotation = angle;
-
+        float angle = Mathf.Atan2(toPlayer.y, toPlayer.x) * Mathf.Rad2Deg;
+        rb.rotation = angle + 10f;
         if (cd > 0) cd -= Time.fixedDeltaTime;
     }
 
