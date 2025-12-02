@@ -3,10 +3,10 @@ using UnityEngine;
 public class CameraFollow2D : MonoBehaviour
 {
     [Header("Target")]
-    [SerializeField] private Transform target;
+    [SerializeField] private Transform target;      // Player
 
     [Header("Follow Settings")]
-    // [SerializeField] private float smoothTime = 0.15f;
+    [SerializeField] private float smoothTime = 0.15f;
     [SerializeField] private Vector3 offset = new Vector3(0f, 0f, -10f);
 
     [Header("Bounds (Optional)")]
@@ -43,11 +43,14 @@ public class CameraFollow2D : MonoBehaviour
         {
             float clampedX = Mathf.Clamp(desiredPos.x, minBounds.x, maxBounds.x);
             float clampedY = Mathf.Clamp(desiredPos.y, minBounds.y, maxBounds.y);
-
             desiredPos = new Vector3(clampedX, clampedY, desiredPos.z);
         }
 
-        transform.position = desiredPos;
+        transform.position = Vector3.SmoothDamp(
+            transform.position,
+            desiredPos,
+            ref _velocity,
+            smoothTime
+        );
     }
-
 }

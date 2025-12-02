@@ -1115,6 +1115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow2D
   target: {fileID: 1416312284}
+  smoothTime: 0.5
   offset: {x: 0, y: 0, z: -10}
   useBounds: 1
   minBounds: {x: -2, y: -25}
