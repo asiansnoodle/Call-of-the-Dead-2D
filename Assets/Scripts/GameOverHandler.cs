@@ -5,38 +5,52 @@ using TMPro;
 public class GameOverHandler : MonoBehaviour
 {
     [Header("UI")]
-    public GameObject gameOverUI;            // assign the panel
-    public TextMeshProUGUI titleText;        // "Game Over"
-    public TextMeshProUGUI statsText;        // "You killed X... / Survived to round Y"
+    [SerializeField] private GameObject gameOverUI;     // root GameOverUI panel
+    [SerializeField] private TextMeshProUGUI titleText; // "GAME OVER"
+    [SerializeField] private GameObject hudPanel;       // new HUDPanel parent (HP/Score/Wave/etc.)
 
     [Header("References")]
-    public WaveManager waveManager;          // drag your WaveManager here
+    [SerializeField] private WaveManager waveManager;   
+    [SerializeField] private string mainMenuSceneName = "MainMenu"; 
 
-    bool over;
+    private bool isGameOver;
 
-    void Start()
+    private void Start()
     {
         var player = GameObject.FindGameObjectWithTag("Player");
-        var hp = player.GetComponent<Health>();
-        hp.onDeath.AddListener(OnPlayerDeath);
+        if (player != null)
+        {
+            var hp = player.GetComponent<Health>();
+            if (hp != null)
+            {
+                hp.onDeath.AddListener(OnPlayerDeath);
+            }
+        }
+
+        if (gameOverUI != null)
+        {
+            gameOverUI.SetActive(false);
+        }
+
+        if (hudPanel != null)
+        {
+            hudPanel.SetActive(true);
+        }
     }
 
-    void OnPlayerDeath()
+    private void OnPlayerDeath()
     {
-        if (over) return;
-        over = true;
+        if (isGameOver) return;
+        isGameOver = true;
 
-        // Fill in the UI text
         if (titleText != null)
-            titleText.text = "Game Over";
-
-        int kills = (ScoreManager.I != null) ? ScoreManager.I.Score : 0;
-        int wave  = (waveManager != null) ? waveManager.CurrentWave : 0;
-
-        if (statsText != null)
         {
-            statsText.text = $"You killed {kills} zombies\n" +
-                             $"You survived to round {wave}";
+            titleText.text = "GAME OVER";
+        }
+
+        if (hudPanel != null)
+        {
+            hudPanel.SetActive(false);
         }
 
         Time.timeScale = 0f;
@@ -46,14 +60,31 @@ public class GameOverHandler : MonoBehaviour
             AudioManager.I.PlayGameOver();
         }
 
-
         if (gameOverUI != null)
+        {
             gameOverUI.SetActive(true);
+        }
     }
 
-    public void Restart()
+    public void OnYesPlayAgain()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Scene current = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(current.buildIndex);
+    }
+
+    public void OnNoQuitToMenu()
+    {
+        Time.timeScale = 1f;
+
+        if (!string.IsNullOrEmpty(mainMenuSceneName))
+        {
+            SceneManager.LoadScene(mainMenuSceneName);
+        }
+        else
+        {
+            Scene current = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(current.buildIndex);
+        }
     }
 }
