@@ -54,10 +54,14 @@ public class WaveManager : MonoBehaviour
         currentWave++;
         zombiesToSpawnThisWave = startingZombies + (currentWave - 1) * zombiesPerWaveIncrease;
 
-        // Update UI
         if (waveText != null)
         {
             waveText.text = $"Wave: {currentWave}";
+        }
+
+        if (WaveAnnouncement.I != null)
+        {
+            WaveAnnouncement.I.ShowWave(currentWave);
         }
 
         if (AudioManager.I != null)
@@ -65,8 +69,6 @@ public class WaveManager : MonoBehaviour
             AudioManager.I.PlayWaveStart();
         }
 
-
-        // Start spawning
         StartCoroutine(SpawnWaveCoroutine());
     }
 
