@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class GunShooter : MonoBehaviour
 {
-    public Transform muzzle;            // assign Player->Muzzle
-    public GameObject bulletPrefab;     // assign Bullet prefab
+    public static System.Action OnPlayerShoot;
+
+    public Transform muzzle;            
+    public GameObject bulletPrefab;     
     public float bulletSpeed = 20f;
     public MuzzleFlash muzzleFlash;
 
-
-    // Optional: limit how fast the player can click-fire
-    public float fireRate = 6f;         // max shots per second
+    public float fireRate = 6f;         
     float nextShotAllowedAt = 0f;
 
     Collider2D playerCol;
@@ -21,7 +21,6 @@ public class GunShooter : MonoBehaviour
 
     void Update()
     {
-        // Semi-auto: fires only on the *click down* event
         if (Input.GetMouseButtonDown(0) && Time.time >= nextShotAllowedAt)
         {
             nextShotAllowedAt = Time.time + 1f / Mathf.Max(0.0001f, fireRate);
@@ -35,7 +34,7 @@ public class GunShooter : MonoBehaviour
         var rb = b.GetComponent<Rigidbody2D>();
         rb.linearVelocity = muzzle.up * bulletSpeed;
 
-        // Prevent immediate self-hit
+        // for no self-hits
         var bCol = b.GetComponent<Collider2D>();
         if (playerCol && bCol) Physics2D.IgnoreCollision(playerCol, bCol, true);
 
@@ -48,5 +47,7 @@ public class GunShooter : MonoBehaviour
         if (muzzleFlash != null){
             muzzleFlash.Flash();
         }
+
+        OnPlayerShoot?.Invoke();
     }
 }
