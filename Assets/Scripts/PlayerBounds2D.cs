@@ -29,6 +29,7 @@ public class PlayerBounds2D : MonoBehaviour
         transform.position = pos;
     }
 
+// used for showing the green line on editor where the bounds are
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {

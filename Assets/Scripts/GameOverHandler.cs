@@ -14,6 +14,8 @@ public class GameOverHandler : MonoBehaviour
     [SerializeField] private string mainMenuSceneName = "MainMenu"; 
 
     private bool isGameOver;
+    public bool IsGameOver => isGameOver;
+
 
     private void Start()
     {
