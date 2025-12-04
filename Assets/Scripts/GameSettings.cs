@@ -15,6 +15,6 @@ public static class GameSettings
     public static void SetDifficulty(Difficulty difficulty)
     {
         CurrentDifficulty = difficulty;
-        Debug.Log($"GameSettings: Difficulty set to {difficulty}");
+        // Debug.Log($"GameSettings: Difficulty set to {difficulty}"); // make sure difficulty is getting set 
     }
 }

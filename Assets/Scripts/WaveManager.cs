@@ -161,7 +161,7 @@ public class WaveManager : MonoBehaviour
                 break;
         }
 
-        Debug.Log($"WaveManager: difficulty={GameSettings.CurrentDifficulty}, " +
-                $"spawn x{spawnMultiplier}, hp x{healthMultiplier}, speed x{speedMultiplier}");
+        // Debug.Log($"WaveManager: difficulty={GameSettings.CurrentDifficulty}, " +
+        //         $"spawn x{spawnMultiplier}, hp x{healthMultiplier}, speed x{speedMultiplier}");
     }
 }
