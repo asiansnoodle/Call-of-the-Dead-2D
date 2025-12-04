@@ -23,7 +23,7 @@ public class CameraShaker : MonoBehaviour
         if (currentShakeTime > 0)
         {
             Vector3 shakeOffset = Random.insideUnitSphere * shakeMagnitude;
-            shakeOffset.z = 0; // keep shake 2D
+            shakeOffset.z = 0; // keep shake 
 
             transform.localPosition = initialPos + shakeOffset;
 

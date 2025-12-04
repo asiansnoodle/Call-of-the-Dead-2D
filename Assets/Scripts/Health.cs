@@ -31,7 +31,6 @@ public class Health : MonoBehaviour
             hitFlash.Flash();
         }
 
-        // PLAYER HURT SOUND + SCREEN FLASH
         if (CompareTag("Player") && current != 0)
         {
             if (AudioManager.I != null)
@@ -41,7 +40,7 @@ public class Health : MonoBehaviour
                 DamageFlash.I.Flash();
 
             if (CameraShaker.I != null)
-                CameraShaker.I.Shake(0.3f, 0.3f);   // edit this to change camera shake intensity
+                CameraShaker.I.Shake(0.3f, 0.3f);   
         }
 
         if (current <= 0)
@@ -62,11 +61,10 @@ public class Health : MonoBehaviour
         }
     }
 
-    // Optional helpers you can use from WaveManager, powerups, etc.
 
     public void Heal(int amount)
     {
-        if (current <= 0) return; // dead things don't heal
+        if (current <= 0) return; 
         current = Mathf.Min(current + amount, max);
     }
 

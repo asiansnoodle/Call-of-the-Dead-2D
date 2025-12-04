@@ -6,7 +6,7 @@ public class GameOverHandler : MonoBehaviour
 {
     [Header("UI")]
     [SerializeField] private GameObject gameOverUI;     // root GameOverUI panel
-    [SerializeField] private TextMeshProUGUI titleText; // "GAME OVER"
+    [SerializeField] private TextMeshProUGUI titleText; // "GAME OVER" text
     [SerializeField] private GameObject hudPanel;       // new HUDPanel parent (HP/Score/Wave/etc.)
 
     [Header("References")]
