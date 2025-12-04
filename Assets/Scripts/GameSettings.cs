@@ -34,7 +34,7 @@ public static class GameSettings
     public static void SetFullscreen(bool value)
     {
         Fullscreen = value;
-        Screen.fullScreen = value;
+        Screen.fullScreenMode = value ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
     }
 
     public static void SetVSync(bool value)

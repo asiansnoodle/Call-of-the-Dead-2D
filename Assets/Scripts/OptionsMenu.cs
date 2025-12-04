@@ -15,42 +15,52 @@ public class OptionsMenu : MonoBehaviour
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private Slider sfxVolumeSlider;
 
-    private Resolution[] resolutions;
+    private readonly Vector2Int[] allowedResolutions = new Vector2Int[]
+    {
+        new Vector2Int(1920, 1080), // default res most common i think
+        new Vector2Int(1600, 900),
+        new Vector2Int(1366, 768),
+        new Vector2Int(1280, 720),
+    };
 
     private void Awake()
     {
-        resolutions = Screen.resolutions;
         resolutionDropdown.ClearOptions();
-
         List<string> options = new List<string>();
-        int currentResIndex = 0;
-
-        for (int i = 0; i < resolutions.Length; i++)
+        for (int i = 0; i < allowedResolutions.Length; i++)
         {
-            Resolution r = resolutions[i];
-            int hz = Mathf.RoundToInt((float)r.refreshRateRatio.value);
-            string option = $"{r.width} x {r.height} ({hz}Hz)";
-
+            Vector2Int res = allowedResolutions[i];
+            string option = $"{res.x} x {res.y}";
             options.Add(option);
+        }
+        resolutionDropdown.AddOptions(options);
 
-            if (r.width == Screen.currentResolution.width &&
-                r.height == Screen.currentResolution.height)
+        int indexToUse = GameSettings.ResolutionIndex;
+
+        if (indexToUse < 0 || indexToUse >= allowedResolutions.Length)
+        {
+            indexToUse = 0;
+            for (int i = 0; i < allowedResolutions.Length; i++)
             {
-                currentResIndex = i;
+                if (Screen.currentResolution.width == allowedResolutions[i].x &&
+                    Screen.currentResolution.height == allowedResolutions[i].y)
+                {
+                    indexToUse = i;
+                    break;
+                }
             }
+
+            GameSettings.SetResolutionIndex(indexToUse);
         }
 
-        resolutionDropdown.AddOptions(options);
-        resolutionDropdown.value = currentResIndex;
+        resolutionDropdown.value = indexToUse;
         resolutionDropdown.RefreshShownValue();
-
-        GameSettings.SetResolutionIndex(currentResIndex);
     }
 
     private void Start()
     {
-        fullscreenToggle.isOn = Screen.fullScreen;
-        vsyncToggle.isOn = QualitySettings.vSyncCount > 0;
+        fullscreenToggle.isOn = GameSettings.Fullscreen;
+        vsyncToggle.isOn      = GameSettings.VSyncOn;
 
         brightnessSlider.SetValueWithoutNotify(GameSettings.Brightness);
 
@@ -61,30 +71,30 @@ public class OptionsMenu : MonoBehaviour
 
     public void OnResolutionChanged(int index)
     {
-        if (index < 0 || index >= resolutions.Length) return;
+        if (index < 0 || index >= allowedResolutions.Length) return;
 
-        Resolution r = resolutions[index];
-        bool fullscreen = Screen.fullScreen;
-
-        var refresh = new RefreshRate()
-        {
-            numerator = r.refreshRateRatio.numerator,
-            denominator = r.refreshRateRatio.denominator
-        };
-
-        Screen.SetResolution(
-            r.width,
-            r.height,
-            fullscreen ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed,
-            refresh
-        );
-
+        Vector2Int res = allowedResolutions[index];
         GameSettings.SetResolutionIndex(index);
+
+        FullScreenMode mode = GameSettings.Fullscreen
+            ? FullScreenMode.FullScreenWindow
+            : FullScreenMode.Windowed;
+
+        Screen.SetResolution(res.x, res.y, mode);
     }
 
     public void OnFullscreenToggled(bool isOn)
     {
         GameSettings.SetFullscreen(isOn);
+
+        int idx = Mathf.Clamp(GameSettings.ResolutionIndex, 0, allowedResolutions.Length - 1);
+        Vector2Int res = allowedResolutions[idx];
+
+        FullScreenMode mode = isOn
+            ? FullScreenMode.FullScreenWindow
+            : FullScreenMode.Windowed;
+
+        Screen.SetResolution(res.x, res.y, mode);
     }
 
     public void OnVSyncToggled(bool isOn)
