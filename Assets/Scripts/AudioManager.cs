@@ -1,11 +1,16 @@
 using UnityEngine;
+using UnityEngine.Audio;   // make sure this is here
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager I;
 
+    [Header("Mixer")]
+    public AudioMixer mixer;
+
     [Header("Sources")]
-    public AudioSource sfxSource;   
+    public AudioSource sfxSource;
+    public AudioSource musicSource;
 
     [Header("Clips")]
     public AudioClip shootClip;
@@ -21,9 +26,24 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
         I = this;
         DontDestroyOnLoad(gameObject);
+
+        SetMusicVolume(GameSettings.MusicVolume);
+        SetSfxVolume(GameSettings.SfxVolume);
+    }
+
+    // section for volume controls options 
+    public void SetMusicVolume(float value)
+    {
+        float v = Mathf.Clamp(value, 0.0001f, 1f);
+        mixer.SetFloat("MusicVolume", Mathf.Log10(v) * 20f);
+    }
+
+    public void SetSfxVolume(float value)
+    {
+        float v = Mathf.Clamp(value, 0.0001f, 1f);
+        mixer.SetFloat("SFXVolume", Mathf.Log10(v) * 20f);
     }
 
     void PlaySfx(AudioClip clip, float volumeScale = 1f)
