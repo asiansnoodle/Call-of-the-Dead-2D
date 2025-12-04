@@ -5,7 +5,7 @@ public class AudioManager : MonoBehaviour
     public static AudioManager I;
 
     [Header("Sources")]
-    public AudioSource sfxSource;   // for one-shot effects
+    public AudioSource sfxSource;   
 
     [Header("Clips")]
     public AudioClip shootClip;

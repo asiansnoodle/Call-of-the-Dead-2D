@@ -15,11 +15,9 @@ public class TutorialOverlay : MonoBehaviour
 
     private void Start()
     {
-        // Ensure fully visible on start
         if (tutorialCanvasGroup != null)
             tutorialCanvasGroup.alpha = 1f;
 
-        // Subscribe to your gun shoot event (we’ll add tiny line there)
         GunShooter.OnPlayerShoot += HandlePlayerShoot;
     }
 
@@ -45,7 +43,7 @@ public class TutorialOverlay : MonoBehaviour
 
         while (elapsed < fadeDuration)
         {
-            elapsed += Time.unscaledDeltaTime; // unaffected by timescale
+            elapsed += Time.unscaledDeltaTime; 
             float t = Mathf.Clamp01(elapsed / fadeDuration);
 
             tutorialCanvasGroup.alpha = Mathf.Lerp(startAlpha, 0f, t);
@@ -55,7 +53,6 @@ public class TutorialOverlay : MonoBehaviour
 
         tutorialCanvasGroup.alpha = 0f;
 
-        // fully disable
         tutorialCanvasGroup.gameObject.SetActive(false);
     }
 }

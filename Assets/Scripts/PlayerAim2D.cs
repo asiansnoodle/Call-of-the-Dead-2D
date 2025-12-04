@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerAim2D : MonoBehaviour
 {
-    public Camera cam; // assign main camera in Inspector
+    public Camera cam; 
     Rigidbody2D rb;
 
     void Awake()

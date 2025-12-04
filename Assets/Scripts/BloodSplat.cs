@@ -21,7 +21,6 @@ public class BloodSplat : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        // Choose a random sprite
         if (bloodSprites != null && bloodSprites.Length > 0)
         {
             spriteRenderer.sprite = bloodSprites[Random.Range(0, bloodSprites.Length)];
@@ -38,7 +37,6 @@ public class BloodSplat : MonoBehaviour
         float scale = Random.Range(minScale, maxScale);
         transform.localScale = new Vector3(scale, scale, 1f);
 
-        // Optional fade-out
         if (fadeOut)
         {
             StartCoroutine(FadeRoutine());

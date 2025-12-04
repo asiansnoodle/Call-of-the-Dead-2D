@@ -28,7 +28,7 @@ public class DamageFlash : MonoBehaviour
     {
         if (canvasGroup == null) return;
 
-        // Fade back to transparent
+        // fade back to transparent
         if (canvasGroup.alpha > 0f)
         {
             canvasGroup.alpha = Mathf.MoveTowards(
@@ -43,7 +43,7 @@ public class DamageFlash : MonoBehaviour
     {
         if (canvasGroup == null) return;
 
-        // Instantly set to max, then Update() will fade it out
+        
         canvasGroup.alpha = maxAlpha;
     }
 }

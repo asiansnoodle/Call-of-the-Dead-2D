@@ -3,8 +3,8 @@ using TMPro;
 
 public class PlayerHealthUI : MonoBehaviour
 {
-    public Health playerHealth;          // drag the Player's Health here (or auto-find)
-    public TextMeshProUGUI hpText;       // drag the HPText TMP here
+    public Health playerHealth;          
+    public TextMeshProUGUI hpText;       
 
     void Start()
     {
@@ -19,7 +19,6 @@ public class PlayerHealthUI : MonoBehaviour
 
     void Update()
     {
-        // simple & reliable: poll once per frame (cheap)
         UpdateHP();
     }
 

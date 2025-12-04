@@ -11,12 +11,34 @@ public class ZombieAI : MonoBehaviour
     Transform target;
     float cd;
 
-    void Awake() { rb = GetComponent<Rigidbody2D>(); }
+    void Awake() 
+    { 
+        rb = GetComponent<Rigidbody2D>(); 
+    }
 
     void Start()
     {
         var player = GameObject.FindGameObjectWithTag("Player");
-        if (player) target = player.transform;
+        if (player) 
+        {
+            target = player.transform;
+        }
+        ApplyDifficultyToDamage();
+    }
+
+    private void ApplyDifficultyToDamage()
+    {
+        switch (GameSettings.CurrentDifficulty)
+        {
+            case Difficulty.Easy:
+                contactDamage = Mathf.Max(1, contactDamage - 1); 
+                break;
+            case Difficulty.Normal:
+                break;
+            case Difficulty.Hard:
+                contactDamage += 1;
+                break;
+        }
     }
 
     void FixedUpdate()

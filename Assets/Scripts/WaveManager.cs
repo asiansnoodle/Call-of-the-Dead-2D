@@ -1,13 +1,12 @@
 using UnityEngine;
-using UnityEngine.UI;   // If you use TextMeshPro, see note below.
 using TMPro;
 
 public class WaveManager : MonoBehaviour
 {
     [Header("References")]
-    public Transform player;          // Player transform (for spawn around player)
-    public GameObject zombiePrefab;   // Zombie prefab to spawn
-    public TextMeshProUGUI waveText;  // UI text to display wave (or TMP type)
+    public Transform player;         
+    public GameObject zombiePrefab;   
+    public TextMeshProUGUI waveText;  
 
     [Header("Spawning")]
     public float spawnRadius = 10f;   // How far around the player zombies appear
@@ -25,23 +24,24 @@ public class WaveManager : MonoBehaviour
     private float waveCountdown = 0f;
     public int CurrentWave => currentWave;
 
+    // new stuff for difficulty
+    private float spawnMultiplier = 1f;
+    private float healthMultiplier = 1f;
+    private float speedMultiplier = 1f;
 
     private void Start()
     {
-        // Start first wave after a short delay
+        SetupDifficultyMultipliers();   // added for difficulty
         waveCountdown = 1f;
     }
 
     private void Update()
     {
-        // If we are currently spawning, don't do anything else in Update
         if (isSpawning) return;
 
-        // If there are still enemies alive, wait
         int enemiesAlive = GameObject.FindGameObjectsWithTag("Enemy").Length;
         if (enemiesAlive > 0) return;
 
-        // No enemies alive: count down to next wave
         waveCountdown -= Time.deltaTime;
         if (waveCountdown <= 0f)
         {
@@ -52,7 +52,8 @@ public class WaveManager : MonoBehaviour
     private void StartNextWave()
     {
         currentWave++;
-        zombiesToSpawnThisWave = startingZombies + (currentWave - 1) * zombiesPerWaveIncrease;
+        int baseCount = startingZombies + (currentWave - 1) * zombiesPerWaveIncrease;   // edited for difficulty scaling
+        zombiesToSpawnThisWave = Mathf.RoundToInt(baseCount * spawnMultiplier);
 
         if (waveText != null)
         {
@@ -79,11 +80,9 @@ public class WaveManager : MonoBehaviour
         for (int i = 0; i < zombiesToSpawnThisWave; i++)
         {
             SpawnZombieForCurrentWave();
-            // small delay between spawns so they don't all pop in at once
             yield return new WaitForSeconds(0.2f);
         }
 
-        // Done spawning; start countdown to next wave *after* current wave is cleared
         isSpawning = false;
         waveCountdown = timeBetweenWaves;
     }
@@ -96,17 +95,14 @@ public class WaveManager : MonoBehaviour
             return;
         }
 
-        // Random point around the player in a circle
         Vector2 randomDirection = Random.insideUnitCircle.normalized;
         Vector3 spawnPos = player.position + new Vector3(randomDirection.x, randomDirection.y, 0f) * spawnRadius;
 
         GameObject z = Instantiate(zombiePrefab, spawnPos, Quaternion.identity);
-
+        // diff edits
         var hp = z.GetComponent<Health>();
         if (hp)
         {
-            // Health handles Destroy(gameObject) internally.
-            // We ONLY care about score here.
             hp.onDeath.AddListener(() =>
             {
                 if (ScoreManager.I) ScoreManager.I.Add(1);
@@ -116,8 +112,7 @@ public class WaveManager : MonoBehaviour
                 }
             });
 
-            // OPTIONAL: health scaling
-            int bonusHealth = (int)(zombieHealthIncreasePerWave * (currentWave - 1));
+            int bonusHealth = (int)(zombieHealthIncreasePerWave * (currentWave - 1) * healthMultiplier);
             if (bonusHealth > 0)
             {
                 hp.SetMax(hp.max + bonusHealth);
@@ -127,11 +122,10 @@ public class WaveManager : MonoBehaviour
         var movement = z.GetComponent<ZombieAI>();
         if (movement != null)
         {
-            movement.speed += zombieSpeedIncreasePerWave * (currentWave - 1);
+            movement.speed += zombieSpeedIncreasePerWave * (currentWave - 1) * speedMultiplier;
         }
     }
 
-    // Optional: public method you can call from GameManager on Restart
     public void ResetWaves()
     {
         currentWave = 0;
@@ -142,5 +136,32 @@ public class WaveManager : MonoBehaviour
         {
             waveText.text = "Wave: 0";
         }
+    }
+
+    private void SetupDifficultyMultipliers()
+    {
+        switch (GameSettings.CurrentDifficulty)
+        {
+            case Difficulty.Easy:
+                spawnMultiplier = 0.75f;   
+                healthMultiplier = 0.1f;   
+                speedMultiplier  = 0.3f;   
+                break;
+
+            case Difficulty.Normal:
+                spawnMultiplier = 1f;
+                healthMultiplier = 1f;
+                speedMultiplier  = 1f;
+                break;
+
+            case Difficulty.Hard:
+                spawnMultiplier = 3.0f;    
+                healthMultiplier = 3.0f; 
+                speedMultiplier  = 3.0f;  
+                break;
+        }
+
+        // Debug.Log($"WaveManager: difficulty={GameSettings.CurrentDifficulty}, " +
+        //         $"spawn x{spawnMultiplier}, hp x{healthMultiplier}, speed x{speedMultiplier}");
     }
 }
