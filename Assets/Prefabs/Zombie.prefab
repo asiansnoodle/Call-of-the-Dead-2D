@@ -106,6 +106,7 @@ GameObject:
   - component: {fileID: 6627750661350591993}
   - component: {fileID: 2045311187552995333}
   - component: {fileID: 841039079567902626}
+  - component: {fileID: 6880180928629191365}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Enemy
@@ -333,3 +334,17 @@ MonoBehaviour:
   flashColor: {r: 0.764151, g: 0.12615699, b: 0.12615699, a: 1}
   flashDuration: 0.1
   useOriginalColor: 1
+--- !u!114 &6880180928629191365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8912797219678312926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f695cc0ad1685149aee3fd132345e0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthDropper
+  dropChance: 0.2
+  healthPickupPrefab: {fileID: 1085869529633613016, guid: 1fda83ac30f52444a9571f5ae3782d5c, type: 3}

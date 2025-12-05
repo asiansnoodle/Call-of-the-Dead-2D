@@ -64,7 +64,9 @@ public class Health : MonoBehaviour
 
     public void Heal(int amount)
     {
-        if (current <= 0) return; 
+        if (amount <= 0 || current <= 0){
+            return; 
+        }
         current = Mathf.Min(current + amount, max);
     }
 
